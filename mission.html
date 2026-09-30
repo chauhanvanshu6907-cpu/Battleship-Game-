@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Briefing | Battleship</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ocean">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+        <div class="bubble bubble5"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="logo">⚓ BATTLESHIP</div>
+        <div class="mission-code">OPERATION: DEEP SEA</div>
+    </header>
+
+    <main class="mission-page">
+        <section class="mission-panel">
+            <p class="classified">🚨 CLASSIFIED — NAVAL COMMAND</p>
+            <h1>MISSION BRIEFING</h1>
+            <div class="line"></div>
+
+            <div class="mission-info">
+                <div class="info-box"><span>MISSION</span><strong>OPERATION DEEP SEA</strong></div>
+                <div class="info-box"><span>LOCATION</span><strong>SECTOR 07</strong></div>
+                <div class="info-box"><span>THREAT LEVEL</span><strong class="danger">HIGH</strong></div>
+                <div class="info-box"><span>COMMANDERS</span><strong>02</strong></div>
+            </div>
+
+            <div class="briefing-story">
+                <h2>🌊 THE SITUATION</h2>
+                <p>Our surveillance system has detected an unidentified fleet somewhere inside <strong>Sector 07</strong>.</p>
+                <p>The enemy has disappeared from radar and is believed to be hiding beneath the deep waters. Their exact positions are unknown.</p>
+                <p>Your fleet has entered the sector. From this moment, every decision matters.</p>
+                <p>You and another commander will fight for control of these waters.</p>
+            </div>
+
+            <div class="objectives">
+                <h2>⚔ MISSION OBJECTIVES</h2>
+                <div class="objective">
+                    <div class="number">01</div>
+                    <div><h3>DEPLOY</h3><p>Position your ships carefully inside your waters.</p></div>
+                </div>
+                <div class="objective">
+                    <div class="number">02</div>
+                    <div><h3>SEARCH</h3><p>Scan the enemy waters and locate hidden ships.</p></div>
+                </div>
+                <div class="objective">
+                    <div class="number">03</div>
+                    <div><h3>ATTACK</h3><p>Fire at enemy coordinates and destroy their fleet.</p></div>
+                </div>
+                <div class="objective">
+                    <div class="number">04</div>
+                    <div><h3>CONQUER</h3><p>Destroy every enemy ship and control Sector 07.</p></div>
+                </div>
+            </div>
+
+            <div class="warning">
+                <div class="warning-icon">⚠</div>
+                <div>
+                    <strong>COMMANDER'S WARNING</strong>
+                    <p>Once the battle begins, your fleet positions must remain secret. Choose your targets carefully.</p>
+                </div>
+            </div>
+
+            <button class="start-button" onclick="acceptMission()">ACCEPT MISSION ⚓</button>
+            <p class="bottom-text">YOUR FLEET IS WAITING, COMMANDER.</p>
+        </section>
+    </main>
+
+    <script>
+        function acceptMission() {
+            window.location.href = "mode.html";
+        }
+    </script>
+</body>
+</html>

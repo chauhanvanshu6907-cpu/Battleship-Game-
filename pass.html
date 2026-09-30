@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Secure Handover | Battleship</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <main class="pass-page">
+
+        <section class="pass-panel">
+
+            <div class="lock-icon">
+                🔒
+            </div>
+
+
+            <p class="classified">
+                ⚠ CLASSIFIED COMMAND HANDOVER
+            </p>
+
+
+            <h1>
+                SECURE HANDOVER
+            </h1>
+
+
+            <p class="pass-message">
+                Commander 01 has completed fleet deployment.
+            </p>
+
+
+            <div class="secret-box">
+
+                <strong>
+                    KEEP THE FLEET POSITIONS SECRET
+                </strong>
+
+                <p>
+                    Pass the device to Commander 02.
+                    Do not reveal your fleet coordinates.
+                </p>
+
+            </div>
+
+
+            <div class="handover">
+
+                <div class="commander">
+
+                    <span class="handover-label">
+                        DEPLOYMENT COMPLETE
+                    </span>
+
+                    <strong>
+                        COMMANDER 01
+                    </strong>
+
+                </div>
+
+
+                <div class="commander">
+
+                    <span class="handover-label">
+                        NEXT COMMANDER
+                    </span>
+
+                    <strong>
+                        COMMANDER 02
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="start-button"
+                onclick="continueToPlayer2()">
+
+                COMMANDER 02 — DEPLOY FLEET ⚓
+
+            </button>
+
+        </section>
+
+    </main>
+
+
+<script>
+
+function continueToPlayer2() {
+
+    window.location.href =
+        "setup.html?mode=pvp&player=2";
+
+}
+
+</script>
+
+</body>
+
+</html>

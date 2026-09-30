@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mission Complete | Battleship</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Ocean Background -->
+    <div class="ocean">
+
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+        <div class="bubble bubble5"></div>
+
+    </div>
+
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            ⚓ BATTLESHIP
+        </div>
+
+        <div class="mission-code">
+            OPERATION: DEEP SEA
+        </div>
+
+    </header>
+
+
+    <!-- Rating Page -->
+    <main class="rating-page">
+
+        <section class="rating-panel">
+
+            <p class="classified">
+                ⚓ NAVAL COMMAND — MISSION REPORT
+            </p>
+
+            <div class="success-icon">
+                ★
+            </div>
+
+            <h1>
+                MISSION COMPLETE
+            </h1>
+
+            <p class="rating-subtitle">
+                OPERATION: DEEP SEA HAS ENDED
+            </p>
+
+            <div class="line"></div>
+
+
+            <!-- Thank You -->
+            <div class="rating-message">
+
+                <h2>
+                    WELL PLAYED, COMMANDER!
+                </h2>
+
+                <p>
+                    Your battle has been recorded by
+                    Naval Command.
+                </p>
+
+                <p>
+                    Help us improve the next mission
+                    by rating your experience.
+                </p>
+
+            </div>
+
+
+            <!-- Rating -->
+            <div class="rating-box">
+
+                <h2>
+                    ⭐ RATE YOUR EXPERIENCE
+                </h2>
+
+                <p>
+                    How was your Battleship mission?
+                </p>
+
+
+                <div class="stars">
+
+                    <button onclick="setRating(1)">★</button>
+
+                    <button onclick="setRating(2)">★</button>
+
+                    <button onclick="setRating(3)">★</button>
+
+                    <button onclick="setRating(4)">★</button>
+
+                    <button onclick="setRating(5)">★</button>
+
+                </div>
+
+
+                <p id="ratingText" class="rating-text">
+                    Select a rating
+                </p>
+
+            </div>
+
+
+            <!-- Feedback -->
+            <div class="feedback-box">
+
+                <label for="feedback">
+                    💬 COMMANDER FEEDBACK
+                </label>
+
+                <textarea
+                    id="feedback"
+                    placeholder="Tell us about your mission experience...">
+                </textarea>
+
+            </div>
+
+
+            <!-- Submit -->
+            <button
+                class="start-button"
+                onclick="submitRating()">
+
+                SUBMIT MISSION REPORT ⚓
+
+            </button>
+
+
+            <p id="thanksMessage" class="thanks-message"></p>
+
+
+            <p class="bottom-text">
+                THANK YOU FOR SERVING IN OPERATION: DEEP SEA
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        let selectedRating = 0;
+
+
+        function setRating(rating) {
+
+            selectedRating = rating;
+
+            const stars =
+                document.querySelectorAll(".stars button");
+
+            const ratingText =
+                document.getElementById("ratingText");
+
+
+            stars.forEach((star, index) => {
+
+                if (index < rating) {
+
+                    star.classList.add("active");
+
+                } else {
+
+                    star.classList.remove("active");
+
+                }
+
+            });
+
+
+            const messages = {
+
+                1: "⭐ Needs improvement",
+
+                2: "⭐⭐ Could be better",
+
+                3: "⭐⭐⭐ Good mission",
+
+                4: "⭐⭐⭐⭐ Great mission",
+
+                5: "⭐⭐⭐⭐⭐ Excellent mission!"
+
+            };
+
+
+            ratingText.textContent =
+                messages[rating];
+
+        }
+
+
+        function submitRating() {
+
+            const feedback =
+                document.getElementById("feedback").value;
+
+            const thanksMessage =
+                document.getElementById("thanksMessage");
+
+
+            if (selectedRating === 0) {
+
+                thanksMessage.textContent =
+                    "⚠ Please select a rating first.";
+
+                return;
+
+            }
+
+
+            /*
+             * Save the rating locally.
+             * This works on GitHub Pages without a database.
+             */
+
+            localStorage.setItem(
+                "battleshipRating",
+                selectedRating
+            );
+
+
+            localStorage.setItem(
+                "battleshipFeedback",
+                feedback
+            );
+
+
+            thanksMessage.textContent =
+                "✓ Mission report submitted successfully. Thank you, Commander!";
+
+
+            document.querySelector(
+                ".start-button"
+            ).disabled = true;
+           setTimeout(function () {
+    window.close();
+}, 500);
+        }
+
+    </script>
+
+</body>
+
+</html>

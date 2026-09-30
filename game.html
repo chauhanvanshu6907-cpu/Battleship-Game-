@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Zone | Battleship</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .game-page { position: relative; z-index: 1; min-height: calc(100vh - 70px); padding: 30px 4% 45px; }
+        .game-panel { width: min(1350px, 100%); margin: auto; padding: 28px; background: rgba(5, 23, 38, 0.94); border: 1px solid rgba(95, 195, 245, 0.25); border-radius: 16px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45); }
+        .game-header { text-align: center; margin-bottom: 25px; }
+        .game-header h1 { font-size: clamp(30px, 5vw, 48px); letter-spacing: 3px; }
+        .game-subtitle { margin-top: 7px; color: #8faab8; font-size: 13px; }
+        .turn-box { display: flex; align-items: center; justify-content: center; gap: 15px; padding: 14px 20px; margin-bottom: 25px; border: 1px solid rgba(90, 200, 255, 0.25); border-radius: 9px; background: rgba(18, 65, 88, 0.4); }
+        .turn-box span { color: #819eac; font-size: 10px; letter-spacing: 1.5px; }
+        #turnPlayer { color: #6bd0ff; font-size: 16px; font-weight: bold; }
+        
+        .battle-universe { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .player-arena-zone { flex: 1; min-width: min(100%, 550px); transition: all 0.3s ease; }
+        .battle-area { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .battle-board { padding: 20px; border: 1px solid rgba(100, 202, 255, 0.16); border-radius: 12px; background: rgba(5, 27, 42, 0.7); }
+        .board-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .board-heading h2 { font-size: 14px; letter-spacing: 1px; }
+        .board-heading span { color: #6d91a2; font-size: 9px; letter-spacing: 1px; }
+        
+        .game-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; max-width: 420px; margin: auto; padding: 10px; background: rgba(1, 12, 21, 0.95); border: 2px solid rgba(85, 190, 245, 0.3); border-radius: 10px; }
+        .game-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(100, 202, 255, 0.2); border-radius: 4px; background: rgba(24, 74, 101, 0.55); font-size: 17px; cursor: pointer; transition: 0.18s ease; }
+        .game-cell:hover { background: rgba(55, 139, 180, 0.75); border-color: #6bd0ff; }
+        .game-cell.ship { background: rgba(30, 130, 170, 0.7); border-color: rgba(100, 210, 255, 0.5); }
+        .game-cell.hit { background: rgba(190, 65, 65, 0.75); border-color: #ff7777; cursor: default; }
+        .game-cell.miss { background: rgba(80, 100, 110, 0.45); color: #9bb0ba; cursor: default; }
+        .game-cell.disabled { cursor: default; opacity: 0.8; }
+        
+        .disabled-arena { opacity: 0.25; pointer-events: none; transform: scale(0.98); }
+        .battle-status { min-height: 24px; margin-top: 14px; text-align: center; color: #78cfff; font-size: 13px; }
+        .battle-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; }
+        .info-card { padding: 14px; text-align: center; border: 1px solid rgba(100, 202, 255, 0.14); border-radius: 8px; background: rgba(14, 49, 66, 0.4); }
+        .info-card span { display: block; color: #6f8997; font-size: 9px; letter-spacing: 1px; margin-bottom: 6px; }
+        .info-card strong { color: #ffffff; font-size: 15px; }
+        @media (max-width: 1100px) { .battle-universe { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <div class="game-page">
+        <div class="game-panel">
+            <div class="game-header">
+                <h1 id="gameArenaTitle">BATTLE ENGAGED</h1>
+                <div class="game-subtitle">SIMULTANEOUS COMBAT INTERFACE MATRIX</div>
+            </div>
+
+            <div class="turn-box">
+                <span>COMBAT RADAR SYSTEM:</span>
+                <div id="turnPlayer">Loading Fleet Controls...</div>
+            </div>
+
+            <div class="battle-universe">
+                <div class="player-arena-zone" id="p1-arena-block">
+                    <div class="battle-area">
+                        <div class="battle-board">
+                            <div class="board-heading"><h2>P1 ATTACK TARGETS</h2><span>OFFENSIVE MATRIX</span></div>
+                            <div id="p1-attack-grid" class="game-grid"></div>
+                        </div>
+                        <div class="battle-board">
+                            <div class="board-heading"><h2>P1 DEFENSE SHIELDS</h2><span>RADAR HULL STATUS</span></div>
+                            <div id="p1-defense-grid" class="game-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-arena-zone" id="p2-arena-block">
+                    <div class="battle-area">
+                        <div class="battle-board">
+                            <div class="board-heading"><h2>P2 ATTACK TARGETS</h2><span>OFFENSIVE MATRIX</span></div>
+                            <div id="p2-attack-grid" class="game-grid"></div>
+                        </div>
+                        <div class="battle-board">
+                            <div class="board-heading"><h2>P2 DEFENSE SHIELDS</h2><span>RADAR HULL STATUS</span></div>
+                            <div id="p2-defense-grid" class="game-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="battleStatus" class="battle-status">System Connected. Prepare targets.</div>
+
+            <div class="battle-info">
+                <div class="info-card"><span>PLAYER 1 FLEET STATUS</span><strong id="p1-fleet-health">100%</strong></div>
+                <div class="info-card"><span>GAME MODE PROFILE</span><strong id="display-game-mode">Detecting Stack...</strong></div>
+                <div class="info-card"><span>OPPONENT STATUS</span><strong id="p2-fleet-health">100%</strong></div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

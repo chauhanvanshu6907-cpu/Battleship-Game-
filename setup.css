@@ -1,0 +1,491 @@
+/* =========================================
+   SETUP PAGE
+   SAME BATTLESHIP STYLE
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================
+   SETUP PAGE
+========================================= */
+
+.setup-page {
+    position: relative;
+    z-index: 1;
+
+    min-height: calc(100vh - 70px);
+
+    padding: 30px 4% 45px;
+}
+
+
+/* =========================================
+   SETUP PANEL
+========================================= */
+
+.setup-panel {
+    width: min(1100px, 100%);
+
+    margin: auto;
+
+    padding: 28px;
+
+    background: rgba(5, 23, 38, 0.94);
+
+    border: 1px solid rgba(95, 195, 245, 0.25);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45);
+}
+
+
+.setup-panel h1 {
+    text-align: center;
+
+    font-size: clamp(30px, 5vw, 48px);
+
+    letter-spacing: 3px;
+
+    margin: 8px 0;
+}
+
+
+.setup-subtitle {
+    text-align: center;
+
+    color: #8faab8;
+
+    font-size: 13px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================
+   PLAYER INDICATOR
+========================================= */
+
+.player-indicator {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 20px;
+
+    margin-bottom: 25px;
+
+    border:
+        1px solid rgba(90, 200, 255, 0.25);
+
+    border-radius: 9px;
+
+    background:
+        rgba(18, 65, 88, 0.4);
+}
+
+
+.player-indicator span {
+    color: #819eac;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+}
+
+
+.player-indicator strong {
+    color: #6bd0ff;
+
+    font-size: 16px;
+}
+
+
+/* =========================================
+   SETUP CONTAINER
+========================================= */
+
+.setup-container {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        330px;
+
+    gap: 35px;
+
+    align-items: start;
+}
+
+
+/* =========================================
+   BOARD SECTION
+========================================= */
+
+.setup-board-section {
+    text-align: center;
+}
+
+
+.setup-board-section h2,
+.fleet-panel h2 {
+    font-size: 14px;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   DEPLOYMENT BOARD
+========================================= */
+
+#setupBoard {
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, 52px);
+
+    grid-template-rows:
+        repeat(6, 52px);
+
+    gap: 5px;
+
+    width: max-content;
+
+    margin: 0 auto;
+
+    padding: 12px;
+
+    background:
+        rgba(1, 12, 21, 0.95);
+
+    border:
+        2px solid rgba(85, 190, 245, 0.3);
+
+    border-radius: 10px;
+
+    box-sizing: content-box;
+}
+
+
+/* =========================================
+   BOARD CELL
+========================================= */
+
+#setupBoard .cell {
+    width: 52px;
+
+    height: 52px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid rgba(100, 202, 255, 0.2);
+
+    border-radius: 4px;
+
+    background:
+        rgba(24, 74, 101, 0.55);
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.18s ease;
+}
+
+
+/* =========================================
+   SHIP
+========================================= */
+
+#setupBoard .cell.ship {
+    background:
+        rgba(30, 130, 170, 0.7);
+
+    border-color:
+        rgba(100, 210, 255, 0.5);
+
+    color: white;
+}
+
+
+/* =========================================
+   PREVIEW
+========================================= */
+
+#setupBoard .cell.preview {
+    background:
+        rgba(80, 190, 230, 0.55);
+
+    border-color:
+        #6bd0ff;
+}
+
+
+/* =========================================
+   INVALID
+========================================= */
+
+#setupBoard .cell.invalid {
+    background:
+        rgba(190, 65, 65, 0.55);
+
+    border-color:
+        #ff7777;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.setup-status {
+    min-height: 24px;
+
+    margin-top: 14px;
+
+    text-align: center;
+
+    color: #78cfff;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   FLEET PANEL
+========================================= */
+
+.fleet-panel {
+    width: 100%;
+}
+
+
+/* =========================================
+   SHIP CARD
+========================================= */
+
+.ship-card {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px;
+
+    margin-bottom: 10px;
+
+    border:
+        1px solid rgba(100, 202, 255, 0.14);
+
+    border-radius: 8px;
+
+    background:
+        rgba(14, 49, 66, 0.4);
+
+    cursor: pointer;
+
+    transition: 0.18s ease;
+}
+
+
+.ship-card:hover {
+    border-color: #6bd0ff;
+}
+
+
+.ship-card.selected {
+    border-color: #6bd0ff;
+
+    background:
+        rgba(18, 76, 103, 0.65);
+}
+
+
+.ship-card strong {
+    display: block;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+
+.ship-card span {
+    display: block;
+
+    color: #6f8997;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    margin-top: 4px;
+}
+
+
+.ship-status {
+    color: #6bd0ff;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   ROTATE BUTTON
+========================================= */
+
+.rotate-button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 8px;
+
+    border:
+        1px solid rgba(100, 202, 255, 0.3);
+
+    border-radius: 7px;
+
+    background:
+        rgba(14, 49, 66, 0.5);
+
+    color: #78cfff;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   INSTRUCTIONS
+========================================= */
+
+.setup-instructions {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border:
+        1px solid rgba(100, 202, 255, 0.12);
+
+    border-radius: 8px;
+
+    background:
+        rgba(5, 27, 42, 0.5);
+}
+
+
+.setup-instructions p {
+    margin: 6px 0;
+
+    color: #8faab8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   DEPLOY BUTTON
+========================================= */
+
+.deploy-button {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 18px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d769f,
+            #12526f
+        );
+
+    color: white;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+
+.deploy-button:disabled {
+    opacity: 0.4;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .setup-container {
+        grid-template-columns: 1fr;
+    }
+
+    .fleet-panel {
+        max-width: 500px;
+
+        margin: auto;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    #setupBoard {
+        grid-template-columns:
+            repeat(6, 40px);
+
+        grid-template-rows:
+            repeat(6, 40px);
+
+        gap: 4px;
+
+        padding: 8px;
+    }
+
+
+    #setupBoard .cell {
+        width: 40px;
+
+        height: 40px;
+    }
+
+}

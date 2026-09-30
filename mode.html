@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Mode | Battleship</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ocean">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+        <div class="bubble bubble5"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="logo">⚓ BATTLESHIP</div>
+        <div class="mission-code">OPERATION: DEEP SEA</div>
+    </header>
+
+    <main class="mode-page">
+        <section class="mode-panel">
+            <p class="classified">⚔ COMMAND DECK</p>
+            <h1>SELECT BATTLE MODE</h1>
+            <p class="mode-intro">Two commanders have entered the unknown waters. Choose how the battle will begin.</p>
+            <div class="line"></div>
+
+            <div class="mode-container">
+                <!-- PLAYER VS PLAYER -->
+                <div class="mode-card selected">
+                    <div class="mode-icon">👥</div>
+                    <div class="mode-content">
+                        <p class="mode-label">TWO COMMANDER MODE</p>
+                        <h2>PLAYER VS PLAYER</h2>
+                        <p>Two commanders. Two hidden fleets. One ocean. One winner. Play side-by-side without swapping.</p>
+                        <button class="start-button" onclick="startTwoPlayer()">ENTER WAR ZONE ⚔</button>
+                    </div>
+                </div>
+
+                <!-- PLAYER VS COMPUTER -->
+                <div class="mode-card">
+                    <div class="mode-icon">🤖</div>
+                    <div class="mode-content">
+                        <p class="mode-label">AI COMBAT MODE</p>
+                        <h2>PLAYER VS COMPUTER</h2>
+                        <p>Face an enemy commander controlled by the computer and destroy its fleet.</p>
+                        <button class="start-button" onclick="startAIGame()">ENTER AI WAR ZONE 🤖</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules">
+                <h3>⚓ BATTLE RULES</h3>
+                <div class="rule-list">
+                    <div><span>01</span><p>Each commander secretly deploys their fleet.</p></div>
+                    <div><span>02</span><p>Players take turns attacking enemy coordinates.</p></div>
+                    <div><span>03</span><p>A hit reveals damage. A miss reveals nothing.</p></div>
+                    <div><span>04</span><p>Destroy the entire enemy fleet to win.</p></div>
+                </div>
+            </div>
+            <p class="bottom-text">CHOOSE YOUR MODE, COMMANDER.</p>
+        </section>
+    </main>
+
+    <script>
+        function startTwoPlayer() {
+            localStorage.setItem("gameMode", "pvp");
+            window.location.href = "setup.html?mode=pvp&player=1";
+        }
+
+        function startAIGame() {
+            localStorage.setItem("gameMode", "pvc");
+            window.location.href = "setup.html?mode=pvc&player=1";
+        }
+    </script>
+</body>
+</html>

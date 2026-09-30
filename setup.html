@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fleet Deployment | Battleship</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="setup.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">⚓ BATTLESHIP</div>
+    <div class="mission-code">OPERATION: DEEP SEA</div>
+</nav>
+
+<main class="setup-page">
+
+    <section class="setup-panel">
+
+        <p class="classified">
+            ⚠ CLASSIFIED NAVAL DEPLOYMENT
+        </p>
+
+        <h1>FLEET DEPLOYMENT</h1>
+
+        <p class="setup-subtitle">
+            Position your fleet carefully inside Sector 07.
+            The enemy must not know your coordinates.
+        </p>
+
+        <div class="player-indicator">
+            <span>CURRENT COMMANDER</span>
+            <strong id="playerName">COMMANDER 01</strong>
+        </div>
+
+        <div class="setup-container">
+
+            <div class="setup-board-section">
+
+                <h2>TACTICAL GRID</h2>
+
+                <div id="setupBoard"></div>
+
+                <div class="setup-status" id="setupStatus">
+                    Select a ship to begin deployment.
+                </div>
+
+            </div>
+
+
+            <div class="fleet-panel">
+
+                <h2>FLEET UNITS</h2>
+
+                <div class="ship-card selected"
+                     data-ship="Carrier"
+                     data-size="3">
+
+                    <div>
+                        <strong>Carrier</strong>
+                        <span>SIZE: 3</span>
+                    </div>
+
+                    <div class="ship-status">READY</div>
+
+                </div>
+
+
+                <div class="ship-card"
+                     data-ship="Destroyer"
+                     data-size="2">
+
+                    <div>
+                        <strong>Destroyer</strong>
+                        <span>SIZE: 2</span>
+                    </div>
+
+                    <div class="ship-status">READY</div>
+
+                </div>
+
+
+                <div class="ship-card"
+                     data-ship="Submarine"
+                     data-size="2">
+
+                    <div>
+                        <strong>Submarine</strong>
+                        <span>SIZE: 2</span>
+                    </div>
+
+                    <div class="ship-status">READY</div>
+
+                </div>
+
+
+                <button class="rotate-button" id="rotateButton">
+                    🔄 ROTATE SHIP (HORIZ)
+                </button>
+
+
+                <div class="setup-instructions">
+
+                    <p>• Select a fleet unit.</p>
+                    <p>• Move over the grid to preview.</p>
+                    <p>• Click a valid position to deploy.</p>
+                    <p>• Ships cannot overlap.</p>
+
+                </div>
+
+
+                <button class="deploy-button"
+                        id="deployButton"
+                        disabled>
+
+                    DEPLOY FLEET ⚓
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const BOARD_SIZE = 6;
+
+const params =
+    new URLSearchParams(window.location.search);
+
+const gameMode =
+    localStorage.getItem("gameMode") || "pvp";
+
+const player =
+    params.get("player") || "1";
+
+
+document.getElementById("playerName").textContent =
+    `COMMANDER 0${player}`;
+
+
+let selectedShip = "Carrier";
+let selectedSize = 3;
+let isHorizontal = true;
+
+let placedShips = [];
+
+let deployedCoords =
+    Array.from(
+        { length: BOARD_SIZE },
+        () => Array(BOARD_SIZE).fill(0)
+    );
+
+
+const boardContainer =
+    document.getElementById("setupBoard");
+
+const statusText =
+    document.getElementById("setupStatus");
+
+const rotateButton =
+    document.getElementById("rotateButton");
+
+const deployButton =
+    document.getElementById("deployButton");
+
+const cards =
+    document.querySelectorAll(".ship-card");
+
+
+/* =====================================
+   CREATE BOARD
+===================================== */
+
+function buildGrid() {
+
+    boardContainer.innerHTML = "";
+
+    for (let row = 0; row < BOARD_SIZE; row++) {
+
+        for (let col = 0; col < BOARD_SIZE; col++) {
+
+            const cell = document.createElement("div");
+
+            cell.className = "cell";
+
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+
+            cell.addEventListener(
+                "mouseenter",
+                () => showPreview(row, col)
+            );
+
+            cell.addEventListener(
+                "mouseleave",
+                clearPreview
+            );
+
+            cell.addEventListener(
+                "click",
+                () => placeShip(row, col)
+            );
+
+            boardContainer.appendChild(cell);
+        }
+    }
+}
+
+buildGrid();
+
+
+/* =====================================
+   SELECT SHIP
+===================================== */
+
+cards.forEach(card => {
+
+    card.addEventListener("click", function () {
+
+        if (
+            this.querySelector(".ship-status")
+                .textContent === "DEPLOYED"
+        ) {
+            return;
+        }
+
+        cards.forEach(c =>
+            c.classList.remove("selected")
+        );
+
+        this.classList.add("selected");
+
+        selectedShip =
+            this.dataset.ship;
+
+        selectedSize =
+            Number(this.dataset.size);
+
+        statusText.textContent =
+            `Awaiting vectors for ${selectedShip}.`;
+
+        clearPreview();
+    });
+
+});
+
+
+/* =====================================
+   ROTATE
+===================================== */
+
+rotateButton.addEventListener("click", function () {
+
+    isHorizontal = !isHorizontal;
+
+    this.textContent =
+        isHorizontal
+            ? "🔄 ROTATE SHIP (HORIZ)"
+            : "🔄 ROTATE SHIP (VERT)";
+
+    clearPreview();
+});
+
+
+/* =====================================
+   VALIDATE
+===================================== */
+
+function isValidPosition(row, col) {
+
+    if (!selectedShip) {
+        return false;
+    }
+
+    if (isHorizontal) {
+
+        if (col + selectedSize > BOARD_SIZE) {
+            return false;
+        }
+
+    } else {
+
+        if (row + selectedSize > BOARD_SIZE) {
+            return false;
+        }
+    }
+
+
+    for (let i = 0; i < selectedSize; i++) {
+
+        const r =
+            isHorizontal
+                ? row
+                : row + i;
+
+        const c =
+            isHorizontal
+                ? col + i
+                : col;
+
+        if (deployedCoords[r][c] === 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+/* =====================================
+   CLEAR PREVIEW
+===================================== */
+
+function clearPreview() {
+
+    document
+        .querySelectorAll("#setupBoard .cell")
+        .forEach(cell => {
+
+            cell.classList.remove(
+                "preview",
+                "invalid"
+            );
+
+        });
+}
+
+
+/* =====================================
+   PREVIEW
+===================================== */
+
+function showPreview(row, col) {
+
+    clearPreview();
+
+    if (!selectedShip) {
+        return;
+    }
+
+    const valid =
+        isValidPosition(row, col);
+
+
+    for (let i = 0; i < selectedSize; i++) {
+
+        const r =
+            isHorizontal
+                ? row
+                : row + i;
+
+        const c =
+            isHorizontal
+                ? col + i
+                : col;
+
+
+        if (
+            r < 0 ||
+            r >= BOARD_SIZE ||
+            c < 0 ||
+            c >= BOARD_SIZE
+        ) {
+            continue;
+        }
+
+
+        const cell =
+            boardContainer.children[
+                r * BOARD_SIZE + c
+            ];
+
+
+        if (
+            cell &&
+            !cell.classList.contains("ship")
+        ) {
+
+            cell.classList.add(
+                valid
+                    ? "preview"
+                    : "invalid"
+            );
+
+        }
+    }
+}
+
+
+/* =====================================
+   PLACE SHIP
+===================================== */
+
+function placeShip(row, col) {
+
+    if (!selectedShip) {
+        return;
+    }
+
+
+    clearPreview();
+
+
+    if (!isValidPosition(row, col)) {
+
+        statusText.textContent =
+            "🚨 INVALID COORDINATES: Space blocked!";
+
+        return;
+    }
+
+
+    const positions = [];
+
+
+    for (let i = 0; i < selectedSize; i++) {
+
+        const r =
+            isHorizontal
+                ? row
+                : row + i;
+
+        const c =
+            isHorizontal
+                ? col + i
+                : col;
+
+
+        deployedCoords[r][c] = 1;
+
+
+        positions.push({
+            row: r,
+            col: c
+        });
+
+
+        const cell =
+            boardContainer.children[
+                r * BOARD_SIZE + c
+            ];
+
+
+        cell.classList.remove(
+            "preview",
+            "invalid"
+        );
+
+        cell.classList.add("ship");
+    }
+
+
+    placedShips.push({
+
+        name: selectedShip,
+
+        positions: positions
+
+    });
+
+
+    const activeCard =
+        document.querySelector(
+            `.ship-card[data-ship="${selectedShip}"]`
+        );
+
+
+    activeCard
+        .querySelector(".ship-status")
+        .textContent = "DEPLOYED";
+
+
+    activeCard.classList.remove(
+        "selected"
+    );
+
+
+    selectedShip = null;
+
+
+    const nextCard =
+        Array.from(cards).find(card =>
+            card.querySelector(".ship-status")
+                .textContent === "READY"
+        );
+
+
+    if (nextCard) {
+
+        nextCard.click();
+
+    } else {
+
+        statusText.textContent =
+            "✅ ALL FLEET UNITS DEPLOYED.";
+
+        deployButton.disabled = false;
+    }
+
+}
+
+
+/* =====================================
+   SAVE AND CONTINUE
+===================================== */
+
+deployButton.addEventListener(
+    "click",
+    function () {
+
+        if (placedShips.length !== 3) {
+            return;
+        }
+
+
+        /* SAVE CURRENT PLAYER */
+
+        localStorage.setItem(
+            `player${player}Fleet`,
+            JSON.stringify(placedShips)
+        );
+
+
+        /* PLAYER VS COMPUTER */
+
+        if (gameMode === "pvc") {
+
+            window.location.href =
+                "game.html";
+
+            return;
+        }
+
+
+        /* PLAYER 1 → PASS SCREEN */
+
+        if (player === "1") {
+
+            window.location.href =
+                "pass.html";
+
+            return;
+        }
+
+
+        /* PLAYER 2 → GAME */
+
+        window.location.href =
+            "game.html";
+
+    });
+
+</script>
+
+</body>
+</html>

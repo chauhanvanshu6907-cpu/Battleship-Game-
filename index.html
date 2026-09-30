@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleship | Operation Deep Sea</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ocean">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+        <div class="bubble bubble5"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="logo">⚓ BATTLESHIP</div>
+        <div class="mission-code">OPERATION: DEEP SEA</div>
+    </header>
+
+    <main class="hero-section">
+        <div class="content">
+            <p class="classified">⚠ CLASSIFIED NAVAL MISSION</p>
+            <h1>BATTLESHIP</h1>
+            <h2>OPERATION <span>DEEP SEA</span></h2>
+
+            <div class="story">
+                <p class="story-title">🌊 THE OCEAN HAS GONE SILENT...</p>
+                <p>Three days ago, the Naval Command lost contact with a reconnaissance fleet operating in <strong>Sector 07</strong>.</p>
+                <p>No distress signal. No explanation. Nothing but silence.</p>
+                <p>Last night, our radar detected multiple unidentified vessels moving beneath the waves. Intelligence believes an enemy fleet has entered the sector.</p>
+                <p>Two commanders have been selected for one final mission.</p>
+                <p class="mission-line">FIND THE ENEMY. <br>PROTECT YOUR FLEET. <br>CONTROL THE UNKNOWN WATERS.</p>
+            </div>
+
+            <div class="status-box">
+                <div class="status-item"><span>LOCATION</span><strong>SECTOR 07</strong></div>
+                <div class="status-item"><span>THREAT LEVEL</span><strong class="danger">HIGH</strong></div>
+                <div class="status-item"><span>COMMANDERS</span><strong>02</strong></div>
+            </div>
+
+            <button class="start-button" onclick="startMission()">⚓ BEGIN MISSION</button>
+            <p class="bottom-text">TWO COMMANDERS • ONE OCEAN • ONE WINNER</p>
+        </div>
+    </main>
+
+    <div class="radar">
+        <div class="radar-circle"></div>
+        <div class="radar-line"></div>
+    </div>
+
+    <script>
+        function startMission() {
+            window.location.href = "mission.html";
+        }
+    </script>
+</body>
+</html>

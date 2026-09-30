@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Result | Battleship</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ocean">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+        <div class="bubble bubble5"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="logo">⚓ BATTLESHIP</div>
+        <div class="mission-code">OPERATION: DEEP SEA</div>
+    </header>
+
+    <main class="result-page">
+        <section class="result-panel">
+            <p class="classified">⚠ NAVAL COMMAND — FINAL REPORT</p>
+            <div class="victory-icon">🏆</div>
+            <p class="result-label">BATTLE TERMINATED</p>
+
+            <h1 id="winnerTitle">COMMANDER 01</h1>
+            <h2 class="winner-text">HAS WON THE BATTLE!</h2>
+            <div class="line"></div>
+
+            <div class="result-message">
+                <p id="winnerMessage">The enemy fleet has been completely destroyed.</p>
+                <p>Sector 07 is now under your control.</p>
+            </div>
+
+            <div class="result-stats">
+                <div class="result-stat"><span>WINNER</span><strong id="winnerName">COMMANDER 01</strong></div>
+                <div class="result-stat"><span>HITS</span><strong id="hits">0</strong></div>
+                <div class="result-stat"><span>MISSES</span><strong id="misses">0</strong></div>
+                <div class="result-stat"><span>TURNS</span><strong id="turns">0</strong></div>
+            </div>
+
+            <div class="mission-status">
+                <div><span>MISSION</span><strong>OPERATION DEEP SEA</strong></div>
+                <div><span>SECTOR</span><strong>07</strong></div>
+                <div><span>STATUS</span><strong class="success">COMPLETE</strong></div>
+            </div>
+
+            <button class="start-button" onclick="continueToRating()">CONTINUE TO MISSION REPORT ⚓</button>
+            <p class="bottom-text">THE OCEAN REMEMBERS EVERY BATTLE.</p>
+        </section>
+    </main>
+
+    <script>
+        const finalWinner = localStorage.getItem("winner");
+        const finalHits = localStorage.getItem("totalHits");
+        const finalMisses = localStorage.getItem("totalMisses");
+        const finalTurns = localStorage.getItem("totalTurns");
+
+        if (finalWinner) {
+            document.getElementById("winnerTitle").textContent = finalWinner;
+            document.getElementById("winnerName").textContent = finalWinner;
+            if (finalWinner === "COMPUTER BOT") {
+                document.getElementById("winnerMessage").textContent = "Your fleet structures have been completely vaporized.";
+                document.querySelector(".winner-text").textContent = "HAS SEIZED THE OCEAN!";
+            }
+        }
+        if (finalHits) document.getElementById("hits").textContent = finalHits;
+        if (finalMisses) document.getElementById("misses").textContent = finalMisses;
+        if (finalTurns) document.getElementById("turns").textContent = finalTurns;
+
+        function continueToRating() { window.location.href = "rating.html"; }
+    </script>
+</body>
+</html>
